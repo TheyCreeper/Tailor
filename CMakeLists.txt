@@ -47,3 +47,4 @@ qt_generate_deploy_qml_app_script(
     DEPLOY_USER_QML_MODULES_ON_UNSUPPORTED_PLATFORM
 )
 install(SCRIPT ${deploy_script})
+add_subdirectory(Common)
