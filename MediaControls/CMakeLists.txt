@@ -56,4 +56,6 @@ qt_add_qml_module(MediaControls
         "icons/Trash_Icon.svg"
         "icons/Trash_Icon_Dark.svg"
     DEPENDENCIES TARGET Config
+    QML_FILES
+    QML_FILES NavItem.qml
 )

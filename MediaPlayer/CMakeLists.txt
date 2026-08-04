@@ -34,4 +34,10 @@ qt_add_qml_module(MediaPlayer
     DEPENDENCIES
         TARGET Config
         TARGET MediaControls
+        QML_FILES
+        QML_FILES
+        QML_FILES NavBar.qml
+        QML_FILES PlayingPage.qml
+        QML_FILES LibraryPage.qml
+        QML_FILES ContentPage.qml
 )

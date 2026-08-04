@@ -79,17 +79,6 @@ Rectangle {
         preventStealing: true
     }
 
-    FileDialog {
-        id: folderView
-        title: qsTr("Add files to playlist")
-        currentFolder: StandardPaths.standardLocations(StandardPaths.MoviesLocation)[0]
-        fileMode: FileDialog.OpenFiles
-        onAccepted: {
-            root.addFiles(files.count, folderView.selectedFiles)
-            close()
-        }
-    }
-
     ListModel {
         id: files
     }
@@ -106,7 +95,7 @@ Rectangle {
             Label {
                 font.bold: true
                 font.pixelSize: 20
-                text: qsTr("Playlist")
+                text: qsTr("Queue")
                 color: Config.secondaryColor
 
                 Layout.fillWidth: true
