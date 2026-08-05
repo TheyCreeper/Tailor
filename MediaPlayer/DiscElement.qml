@@ -6,15 +6,15 @@ RowLayout {
     id: content
     property string artUrl: "Default_CoverArt"
     property string mediaNameProp: "Name"
-    property string mediaSubnameProp: ""
+    property string mediaSubnameProp: "Subname"
 
     Image {
         id: coverArt
-        anchors.horizontalCenter: contentPage.left
         anchors.verticalCenter: parent.verticalCenter
         width: Math.min(parent.width, parent.height) * 0.6
         height: width
         source: Images.iconSource(artUrl, false)
+        fillMode: Image.Stretch
     }
     Rectangle {
         id: mediaInfo
@@ -25,7 +25,7 @@ RowLayout {
         anchors.leftMargin: 36
         Text {
             id: mediaName
-            text: songNameProp
+            text: mediaNamePop
             font.pixelSize: 32
             wrapMode: Text.WordWrap
             Layout.fillWidth: true
@@ -33,7 +33,7 @@ RowLayout {
         }
         Text {
             id: mediaSubName
-            text: mediaSubNameProp
+            text: mediaSubnameProp
             font.pixelSize: 16
             anchors.top: songName.bottom
             anchors.horizontalCenter: songName.left

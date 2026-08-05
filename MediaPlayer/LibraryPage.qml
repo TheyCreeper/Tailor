@@ -7,9 +7,24 @@ ContentPage {
     // TODO: Have a zone for the filters on the right or left or smt
     // Tabbed interface like the metro tabs for playlist, albums, artists, etc.
     // maybe have a tab for like custom moods or smt
-    DiscElement {
-        artUrl: "Default_CoverArt"
-        mediaNameProp: "testMedia"
-        mediaSubnameProp: "test media undername lalalalalalalaal"
+    Grid {
+        anchors.fill: parent
+        flow: Grid.LeftToRight
+        DiscElement {
+            artUrl: "Default_CoverArt"
+            mediaNameProp: "testMedia"
+            mediaSubnameProp: "test media undername lalalalalalalaal"
+        }
+        DiscElement {
+            artUrl: "Default_CoverArt"
+            mediaNameProp: "testMedia"
+            mediaSubnameProp: "test media undername lalalalalalalaal"
+        }
+        DiscElement {
+            artUrl: "Default_CoverArt"
+            mediaNameProp: "testMedia"
+            mediaSubnameProp: "test media undername lalalalalalalaal"
+        }
     }
+
 }
