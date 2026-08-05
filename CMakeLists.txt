@@ -19,6 +19,9 @@ qt_add_qml_module(MediaPlayerApp
 
 qt_add_ios_ffmpeg_libraries(MediaPlayerApp)
 
+set(QT_QML_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/qml" CACHE PATH "Install path for QML" FORCE)
+set(QML_IMPORT_PATH ${CMAKE_BINARY_DIR}/qml CACHE STRING "Extra QML Import Paths" FORCE)
+
 add_subdirectory(Config)
 add_subdirectory(MediaControls)
 add_subdirectory(MediaPlayer)

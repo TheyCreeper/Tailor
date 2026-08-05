@@ -5,8 +5,13 @@ set_source_files_properties(Images.qml
         QT_QML_SINGLETON_TYPE true
 )
 
+set(
+QML_IMPORT_PATH
+)
+
 qt_add_qml_module(MediaPlayer
     URI "MediaPlayer"
+    OUTPUT_DIRECTORY "${QT_QML_OUTPUT_DIRECTORY}/MediaPlayer"
     QML_FILES
         "Main.qml"
         "Images.qml"
@@ -34,10 +39,9 @@ qt_add_qml_module(MediaPlayer
     DEPENDENCIES
         TARGET Config
         TARGET MediaControls
-        QML_FILES
-        QML_FILES
         QML_FILES NavBar.qml
         QML_FILES PlayingPage.qml
         QML_FILES LibraryPage.qml
         QML_FILES ContentPage.qml
+        QML_FILES DiscElement.qml
 )

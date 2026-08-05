@@ -9,7 +9,7 @@ set_source_files_properties(ControlImages.qml
 
 qt_add_qml_module(MediaControls
     URI "MediaControls"
-    OUTPUT_DIRECTORY MediaControls
+    OUTPUT_DIRECTORY "${QT_QML_OUTPUT_DIRECTORY}/MediaControls"
     QML_FILES
         "AudioControl.qml"
         "ControlImages.qml"
@@ -56,6 +56,6 @@ qt_add_qml_module(MediaControls
         "icons/Trash_Icon.svg"
         "icons/Trash_Icon_Dark.svg"
     DEPENDENCIES TARGET Config
-    QML_FILES
     QML_FILES NavItem.qml
+    QML_FILES
 )

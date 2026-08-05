@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls.Fusion
 import QtQuick.Layouts
-
+import Config
 Button {
     id: content
     signal navTriggered(string targetPage)

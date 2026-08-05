@@ -196,7 +196,7 @@ ApplicationWindow {
             anchors.fill: parent
 
             // Initial default page loaded on app launch
-            initialItem: "PlayingPage.qml"
+            initialItem: "LibraryPage.qml"
 
             // Optional: Disable transition animations for tab-like switching
             replaceEnter: Transition {

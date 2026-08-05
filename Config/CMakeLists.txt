@@ -7,7 +7,7 @@ set_source_files_properties(Config.qml
 
 qt_add_qml_module(Config
     URI "Config"
-    OUTPUT_DIRECTORY Config
+    OUTPUT_DIRECTORY "${QT_QML_OUTPUT_DIRECTORY}/Config"
     QML_FILES
         "Config.qml"
 )
