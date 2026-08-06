@@ -40,6 +40,8 @@ protected:
 
 public:
     Media() = default;
+    Media(std::string title, std::string artist)
+        : title_(std::move(title)), artist_(std::move(artist)) {}
     Media(int itemId, std::string title, std::chrono::seconds duration,
           std::string image, std::string artist, std::vector<std::shared_ptr<const MediaTag>> MediaTags);
 
@@ -68,6 +70,9 @@ public:
     Song(int itemId, std::string title, std::chrono::seconds duration,
          std::string image, std::string artist, std::vector<std::shared_ptr<const MediaTag>> MediaTags);
     Song(std::string title, std::chrono::seconds duration, std::string artist);
+
+    const std::string& getAlbum() const { return albumName_; }
+    const std::string& getGenre() const { return genre_; }
 
     std::chrono::seconds getDuration() const override;
     void Play() const override;

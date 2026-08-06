@@ -53,6 +53,9 @@ void Song::Play() const {
 }
 
 //  Album Implementation
+Album::Album(std::string title,
+             std::string artist)
+    : MediaCollection(std::move(title), std::move(artist)) {}
 
 Album::Album(int itemId, std::string title, std::string image,
              std::string artist, std::vector<std::shared_ptr<const MediaTag>> MediaTags)

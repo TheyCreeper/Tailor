@@ -21,7 +21,8 @@ void LibraryHelper::scanLibrary(const QString &folderPath) {
     // db.setDatabaseName("./db.db");
 
     auto songList = scanSongs(folderPath.toStdString());
-    auto albumList =
+    auto albumList = scanAlbums(songList);
+
     qDebug() << "Scanning folder:" << folderPath;
     emit statusMessageChanged("Started scanning: " + folderPath);
 }
@@ -57,10 +58,22 @@ std::vector<std::shared_ptr<const Song>> LibraryHelper::scanSongs(const std::str
 std::vector<std::shared_ptr<const Album>> LibraryHelper::scanAlbums(std::vector<std::shared_ptr<const Song>> songList) {
     std::vector<std::shared_ptr<const Album>> list;
     std::error_code ec;
+    string tempName = "";
 
-    for (const auto& entry : songList) {
-        list.push_back(std::make_shared<const Album>());
+    while (songList.size() != 0) {
+        tempName = songList[0]->getAlbum();
+        list.push_back(std::make_shared<const Album>(
+            songList[0]->getAlbum(),
+            songList[0]->getArtist()));
+
+        std::erase_if(songList, [&tempName](const std::shared_ptr<const Song>& item) {
+            return item->getAlbum() == tempName;
+        });
     }
 
     return list;
 }
+
+
+
+
