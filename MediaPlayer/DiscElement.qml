@@ -2,45 +2,51 @@ import QtQuick
 import QtQuick.Layouts
 import Config
 
-RowLayout {
+ColumnLayout {
     id: content
+
     property string artUrl: "Default_CoverArt"
     property string mediaNameProp: "Name"
     property string mediaSubnameProp: "Subname"
 
+    spacing: 8
+
     Image {
         id: coverArt
-        anchors.verticalCenter: parent.verticalCenter
-        width: Math.min(parent.width, parent.height) * 0.6
-        height: width
-        source: Images.iconSource(artUrl, false)
-        fillMode: Image.Stretch
+        Layout.fillWidth: true
+        Layout.preferredHeight: width
+        source: Images.iconSource(content.artUrl, false)
+        fillMode: Image.PreserveAspectCrop
     }
-    Rectangle {
+
+    ColumnLayout {
         id: mediaInfo
-        anchors.left: coverArt
-        color: "transparent"
-        anchors.bottom: coverArt.bottom
-        anchors.horizontalCenter: coverArt.right
-        anchors.leftMargin: 36
+        Layout.fillWidth: true
+        Layout.leftMargin: 8
+        Layout.rightMargin: 8
+        spacing: 2
+
         Text {
             id: mediaName
-            text: mediaNamePop
-            font.pixelSize: 32
-            wrapMode: Text.WordWrap
-            Layout.fillWidth: true
+            text: content.mediaNameProp
+            font.pixelSize: 18
+            font.bold: true
             color: "white"
-        }
-        Text {
-            id: mediaSubName
-            text: mediaSubnameProp
-            font.pixelSize: 16
-            anchors.top: songName.bottom
-            anchors.horizontalCenter: songName.left
-            wrapMode: Text.WordWrap
             Layout.fillWidth: true
-            topPadding: 12
-            color: "grey"
+
+            wrapMode: Text.WordWrap
+            maximumLineCount: 2
+            elide: Text.ElideRight
+        }
+
+        Text {
+            text: mediaSubnameProp
+            color: "gray"
+            font.pixelSize: 16
+            Layout.fillWidth: true
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            maximumLineCount: 2
+            elide: Text.ElideRight
         }
     }
 }

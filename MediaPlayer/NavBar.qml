@@ -22,7 +22,7 @@ Rectangle {
         }
         NavItem {
             id: libraryNavButton
-            pageUrl: "LibraryPage.qml"
+            pageUrl: "Views/Library/LibraryPage.qml"
             text: "Library"
             onNavTriggered: (url) => navbar.pageRequested(url)
         }

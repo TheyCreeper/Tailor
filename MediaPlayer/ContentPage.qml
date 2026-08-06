@@ -19,6 +19,11 @@ Item {
     default property alias content: item.children
     Item {
         id: item
-        anchors.fill: parent
+        // Anchor all 4 sides so the container takes up the remaining window area
+        anchors.top: pageTitle.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins: 24
     }
 }
