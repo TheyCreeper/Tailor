@@ -1,3 +1,3 @@
-#include "common.h"
+#include "../common.h"
 
 Common::Common() {}

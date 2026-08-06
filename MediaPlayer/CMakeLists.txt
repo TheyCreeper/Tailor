@@ -10,7 +10,30 @@ QML_IMPORT_PATH
 )
 
 set(SUBFOLDER_QML_FILES
-    "Views/test.qml"
+    # Views
+    ## Library
+    "Views/Library/LibraryPage.qml"
+    "Views/Library/AlbumView.qml"
+    "Views/Library/PlaylistView.qml"
+    "Views/Library/ArtistView.qml"
+
+    ## Other
+    "Views/PlayingPage.qml"
+    "Views/SettingsPage.qml"
+
+    # Components
+    "Components/ErrorPopup.qml"
+    "Components/MetadataInfo.qml"
+    "Components/SettingsInfo.qml"
+    "Components/ThemeInfo.qml"
+    "Components/TouchMenu.qml"
+    "Components/TracksInfo.qml"
+    "Components/TracksOptions.qml"
+    "Components/UrlPopup.qml"
+    "Components/PlaylistInfo.qml"
+    "Components/ContentPage.qml"
+    "Components/DiscElement.qml"
+    "Components/MetroTab.qml"
 )
 
 # Flatten their virtual paths inside the module root
@@ -28,16 +51,6 @@ qt_add_qml_module(MediaPlayer
     QML_FILES
         "Main.qml"
         "Images.qml"
-        "MetadataInfo.qml"
-        "PlayerMenuBar.qml"
-        "TracksInfo.qml"
-        "TracksOptions.qml"
-        "PlaylistInfo.qml"
-        "UrlPopup.qml"
-        "SettingsInfo.qml"
-        "ThemeInfo.qml"
-        "ErrorPopup.qml"
-        "TouchMenu.qml"
         ${SUBFOLDER_QML_FILES}
     RESOURCES
         "icons/Shadow.png"
@@ -54,10 +67,6 @@ qt_add_qml_module(MediaPlayer
         TARGET Config
         TARGET MediaControls
         QML_FILES NavBar.qml
-        QML_FILES PlayingPage.qml
-        QML_FILES LibraryPage.qml
-        QML_FILES ContentPage.qml
-        QML_FILES DiscElement.qml
-        QML_FILES
-        QML_FILES
+        QML_FILES Components/MetroTab.qml
+        QML_FILES Views/SettingsPage.qml
 )

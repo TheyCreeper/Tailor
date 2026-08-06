@@ -2,32 +2,51 @@ import QtQuick
 import MediaControls
 import Config
 import QtQuick.Layouts
+import QtQuick.Controls
+import MediaPlayer
 
 ContentPage {
     id: root
     title: "Library"
-
-    GridView {
-        id: gridView
+    ColumnLayout {
         anchors.fill: parent
-        clip: true
+        spacing: 0
+        MetroTab {
+            id: metroTabs
+            Layout.fillWidth: false
 
-        property real minCellWidth: 180
-        property int columns: Math.max(1, Math.floor(width / minCellWidth))
+            // Define names and target pages
+            tabsModel: [
+                {
+                    name: "ALBUM",
+                    page: "AlbumView.qml"
+                },
+                {
+                    name: "ARTIST",
+                    page: "ArtistView.qml"
+                },
+                {
+                    name: "PLAYLIST",
+                    page: "PlaylistView.qml"
+                }
+            ]
 
-        cellWidth: width / columns
-        cellHeight: cellWidth + 70
-        model: 12
-        delegate: Item {
-            width: gridView.cellWidth
-            height: gridView.cellHeight
-            DiscElement {
-                anchors.fill: parent
-                anchors.margins: 8
-                artUrl: "Default_CoverArt"
-                mediaNameProp: "Album Title " + (index + 1)
-                mediaSubnameProp: "Artist / Subtitle info goes here"
+            // On tab click, replace the StackView item
+            onTabClicked: (index, page) => {
+                if (page) {
+                    stackView.replace(page, StackView.Immediate);
+                }
             }
+        }
+
+        // Need to change the
+        StackView {
+            id: stackView
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            // Set initial page from the first tab model entry
+            initialItem: metroTabs.tabsModel[0].page
         }
     }
 }

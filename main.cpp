@@ -4,10 +4,14 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QCommandLineParser>
+#include <QQmlContext>
 #include <QDir>
 #include <QMediaFormat>
 #include <QMimeType>
 #include <algorithm>
+#include <QtSql>
+#include <QSqlDatabase>
+#include "libraryhelper.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -52,7 +56,11 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("MediaPlayer Example");
     QCoreApplication::setOrganizationName("QtProject");
     QCoreApplication::setApplicationVersion(QT_VERSION_STR);
+
+    // controllers for the
     QCommandLineParser parser;
+    LibraryHelper controller;
+
     parser.setApplicationDescription(QCoreApplication::translate("main", "Qt Quick MediaPlayer Example"));
     parser.addHelpOption();
     parser.addVersionOption();
@@ -72,6 +80,9 @@ int main(int argc, char *argv[])
         {"nameFilters", filters.filters},
         {"selectedNameFilter", filters.preferred}
     };
+
+    // context properties for the connection to the front end
+    qmlRegisterSingletonInstance("MediaPlayer", 1, 0, "LibraryBackend", &controller);
 
     engine.setInitialProperties(initialProperties);
     engine.loadFromModule("MediaPlayer", "Main");

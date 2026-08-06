@@ -13,6 +13,8 @@ Rectangle {
 
     signal pageRequested(string pageUrl)
 
+    // It would be nice to be able to make this abstract and be able to declare it
+    // in the main in the future
     ColumnLayout {
         NavItem {
             id: playingNavButton
@@ -22,12 +24,13 @@ Rectangle {
         }
         NavItem {
             id: libraryNavButton
-            pageUrl: "Views/Library/LibraryPage.qml"
+            pageUrl: "LibraryPage.qml"
             text: "Library"
             onNavTriggered: (url) => navbar.pageRequested(url)
         }
         NavItem {
-            text: "Test"
+            text: "Settings"
+            pageUrl: "SettingsPage.qml"
             onNavTriggered: (url) => navbar.pageRequested(url)
         }
     }

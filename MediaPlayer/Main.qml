@@ -4,6 +4,7 @@
 import QtQuick
 import QtQuick.Window
 import QtQuick.Controls.Fusion
+import QtQuick.Layouts
 import QtMultimedia
 import QtQuick.Effects
 import MediaControls
@@ -191,100 +192,96 @@ ApplicationWindow {
             }
         }
 
-        StackView {
-            id: stackView
+        ColumnLayout {
             anchors.fill: parent
+            spacing: 0
+            StackView {
+                id: stackView
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                // Initial default page loaded on app launch
+                initialItem: "LibraryPage.qml"
 
-            // Initial default page loaded on app launch
-            initialItem: "LibraryPage.qml"
-
-            // Optional: Disable transition animations for tab-like switching
-            replaceEnter: Transition {
-                NumberAnimation {
-                    property: "opacity"
-                    from: 0
-                    to: 1
-                    duration: 150
-                }
-            }
-            replaceExit: Transition {
-                NumberAnimation {
-                    property: "opacity"
-                    from: 1
-                    to: 0
-                    duration: 150
-                }
-            }
-        }
-
-        Image {
-            id: shadow
-            source: `icons/Shadow.png`
-            anchors.bottom: parent.bottom
-            visible: false
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
-
-        PlaybackSeekControl {
-            id: seeker
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.bottom: playbackControl.top
-            mediaPlayer: mediaPlayer
-
-            // fullScreenButton.onClicked: {
-            //     // if (mediaPlayer.hasVideo) {
-            //     // }
-            //     videoOutput.fullScreen ? root.showNormal() : root.showFullScreen();
-            //     videoOutput.fullScreen = !videoOutput.fullScreen;
-            //     covertArt.visible = !covertArt.visible
-            // }
-
-            settingsButton.onClicked: !settingsInfo.visible ? root.showOverlay(settingsInfo) : root.closeOverlays()
-        }
-
-        PlaybackControl {
-            id: playbackControl
-
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
-
-            mediaPlayer: mediaPlayer
-            isPlaylistVisible: playlistInfo.visible
-
-            onPlayNextFile: {
-                if (playlistInfo.mediaCount) {
-                    if (!playlistInfo.isShuffled) {
-                        ++root.currentFile;
-                        if (root.currentFile > playlistInfo.mediaCount - 1 && root.playlistLooped) {
-                            root.currentFile = 0;
-                        } else if (root.currentFile > playlistInfo.mediaCount - 1 && !root.playlistLooped) {
-                            --root.currentFile;
-                            return;
-                        }
+                // Optional: Disable transition animations for tab-like switching
+                replaceEnter: Transition {
+                    NumberAnimation {
+                        property: "opacity"
+                        from: 0
+                        to: 1
+                        duration: 150
                     }
-                    root.playMedia();
+                }
+                replaceExit: Transition {
+                    NumberAnimation {
+                        property: "opacity"
+                        from: 1
+                        to: 0
+                        duration: 150
+                    }
                 }
             }
 
-            onPlayPreviousFile: {
-                if (playlistInfo.mediaCount) {
-                    if (!playlistInfo.isShuffled) {
-                        --root.currentFile;
-                        if (root.currentFile < 0 && isPlaylistLooped) {
-                            root.currentFile = playlistInfo.mediaCount - 1;
-                        } else if (root.currentFile < 0 && !root.playlistLooped) {
+            PlaybackSeekControl {
+                id: seeker
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: playbackControl.top
+                mediaPlayer: mediaPlayer
+
+                // fullScreenButton.onClicked: {
+                //     // if (mediaPlayer.hasVideo) {
+                //     // }
+                //     videoOutput.fullScreen ? root.showNormal() : root.showFullScreen();
+                //     videoOutput.fullScreen = !videoOutput.fullScreen;
+                //     covertArt.visible = !covertArt.visible
+                // }
+
+                settingsButton.onClicked: !settingsInfo.visible ? root.showOverlay(settingsInfo) : root.closeOverlays()
+            }
+
+            PlaybackControl {
+                id: playbackControl
+
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                mediaPlayer: mediaPlayer
+                isPlaylistVisible: playlistInfo.visible
+
+                onPlayNextFile: {
+                    if (playlistInfo.mediaCount) {
+                        if (!playlistInfo.isShuffled) {
                             ++root.currentFile;
-                            return;
+                            if (root.currentFile > playlistInfo.mediaCount - 1 && root.playlistLooped) {
+                                root.currentFile = 0;
+                            } else if (root.currentFile > playlistInfo.mediaCount - 1 && !root.playlistLooped) {
+                                --root.currentFile;
+                                return;
+                            }
                         }
+                        root.playMedia();
                     }
-                    root.playMedia();
                 }
-            }
 
-            playlistButton.onClicked: !playlistInfo.visible ? root.showOverlay(playlistInfo) : root.closeOverlays()
-            menuButton.onClicked: menuPopup.open()
+                onPlayPreviousFile: {
+                    if (playlistInfo.mediaCount) {
+                        if (!playlistInfo.isShuffled) {
+                            --root.currentFile;
+                            if (root.currentFile < 0 && isPlaylistLooped) {
+                                root.currentFile = playlistInfo.mediaCount - 1;
+                            } else if (root.currentFile < 0 && !root.playlistLooped) {
+                                ++root.currentFile;
+                                return;
+                            }
+                        }
+                        root.playMedia();
+                    }
+                }
+
+                playlistButton.onClicked: !playlistInfo.visible ? root.showOverlay(playlistInfo) : root.closeOverlays()
+                menuButton.onClicked: menuPopup.open()
+            }
         }
 
         MultiEffect {
