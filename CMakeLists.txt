@@ -21,6 +21,8 @@ qt_add_qml_module(MediaPlayerApp
         libraryhelper.h
         media.cpp
         media.h
+        sqlhelper.cpp
+        sqlhelper.h
 )
 
 qt_add_ios_ffmpeg_libraries(MediaPlayerApp)

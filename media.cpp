@@ -34,6 +34,11 @@ Song::Song(const std::string& filePath) {
         setAlbumName(fileTag->album().to8Bit());
         setGenre(fileTag->genre().to8Bit());
         setTrackNum(fileTag->track());
+        setFilePath(filePath);
+        setDuration(std::chrono::seconds(f.audioProperties()->lengthInSeconds()));
+        setBitrate(f.audioProperties()->bitrate());
+        setSampleRate(f.audioProperties()->sampleRate());
+        setReleaseYear(fileTag->year());
         return;
     }
 }
@@ -110,3 +115,8 @@ std::chrono::seconds Playlist::getDuration() const {
 void Playlist::Play() const {
     // TODO: Playlist playback implementation
 }
+
+Artist::Artist(std::string name, std::string artPath)
+    : id_(-1), name_(std::move(name)), artPath_(std::move(artPath)) {}
+Artist::Artist(int id, std::string name, std::string artPath)
+    : id_(id), name_(std::move(name)), artPath_(std::move(artPath)) {}

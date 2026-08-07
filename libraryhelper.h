@@ -26,4 +26,5 @@ private:
     bool m_isScanning{false};
     std::vector<std::shared_ptr<const Song>> scanSongs(const std::string &path);
     std::vector<std::shared_ptr<const Album>> scanAlbums(std::vector<std::shared_ptr<const Song>> songList);
+    std::vector<std::shared_ptr<const Artist>> scanArtist(std::vector<std::shared_ptr<const Album>> albumList);
 };

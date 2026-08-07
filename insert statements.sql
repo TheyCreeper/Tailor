@@ -1,0 +1,14 @@
+BEGIN TRANSACTION;
+INSERT INTO "album" ("id","name","coverPath","artistId") VALUES (1,NULL,NULL,NULL);
+INSERT INTO "albumTag" ("albumId","tagId") VALUES (NULL,NULL);
+INSERT INTO "artist" ("id","name","artPath") VALUES (1,'',NULL);
+INSERT INTO "artistTag" ("artistId","tagId") VALUES (NULL,NULL);
+INSERT INTO "mood" ("id","name","color") VALUES (1,NULL,NULL);
+INSERT INTO "playlist" ("id","name","favorite","coverPath") VALUES (1,NULL,0,NULL);
+INSERT INTO "main"."moodTag" DEFAULT VALUES;
+INSERT INTO "songTags" ("trackId","tagId") VALUES (NULL,NULL);
+INSERT INTO "tagPlaylist" ("tagId","playlistId") VALUES (NULL,NULL);
+INSERT INTO "tags" ("id","text","color") VALUES (1,NULL,NULL);
+INSERT INTO "trackPlaylist" ("playlistId","trackId") VALUES (NULL,NULL);
+INSERT INTO "tracks" ("id","filePath","title","albumId","trackNumber","durationSeconds","release","sampleRate","bitrate") VALUES (1,'','',NULL,NULL,NULL,NULL,NULL,NULL);
+COMMIT;
