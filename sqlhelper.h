@@ -11,10 +11,11 @@ class SqlHelper
 {
 private:
     QSqlDatabase db_;
+    QString dbPath_;
 public:
     SqlHelper();
     virtual ~SqlHelper() = default;
-
+    bool generateDB(const QString& sqlFilePath = "db.sql");
     // tracks
     bool AddTracks(vector<shared_ptr<const Song>> songList/*, map<string, int> albumIdPair*/);
     vector<shared_ptr<const Song>> GetTracks();

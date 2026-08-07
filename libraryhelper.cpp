@@ -27,7 +27,6 @@ void LibraryHelper::scanLibrary(const QString &folderPath) {
     emit statusMessageChanged("Started scanning: " + folderPath);
 }
 
-
 vector<shared_ptr<const Song>> LibraryHelper::scanSongs(const string &libraryPath) {
     vector<shared_ptr<const Song>> list;
     error_code ec;
