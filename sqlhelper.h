@@ -16,18 +16,18 @@ public:
     SqlHelper();
     virtual ~SqlHelper() = default;
     bool generateDB(const QString& sqlFilePath = "db.sql");
-    bool PrepareSql(QSqlQuery query);
-    bool ExecuteAndCommit(QSqlQuery query);
+    bool PrepareSql(QSqlQuery& query, const QString& sql);
+    bool ExecuteAndCommit(QSqlQuery& query);
 
     // tracks
-    bool AddTracks(vector<shared_ptr<const Song>> songList/*, map<string, int> albumIdPair*/);
+    bool AddTracks(vector<shared_ptr<const Song>> songList, map<string, int>& albumIdPair);
     vector<shared_ptr<const Song>> GetTracks();
     void RemoveTrack(int id);
     void RemoveTracks(vector<int> id);
     shared_ptr<const Song> EditTrack(shared_ptr<const Song> editedSong);
 
     // albums
-    bool AddAlbums(vector<shared_ptr<const Album>> AlbumList, map<string, int> artistIdPair);
+    bool AddAlbums(vector<shared_ptr<const Album>> AlbumList, map<string, int>& artistIdPair);
     vector<shared_ptr<const Album>> GetAlbums();
     bool RemoveAlbum(int id);
     bool RemoveAlbums(vector<int> id);

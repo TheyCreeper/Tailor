@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <filesystem>
 #include <iostream>
+#include <map>
 #include <string>
 #include <vector>
 #include <taglib/fileref.h>
@@ -22,7 +23,32 @@ void LibraryHelper::scanLibrary(const QString &folderPath) {
     auto albumList = scanAlbums(songList);
     auto artistList = scanArtist(albumList);
 
-    sqlHelper.AddTracks(songList);
+    if (!artistList.empty()) {
+        sqlHelper.AddArtists(artistList);
+    }
+
+    std::map<std::string, int> artistIdByName;
+    for (const auto& artist : sqlHelper.GetArtists()) {
+        if (artist) {
+            artistIdByName[artist->getName()] = artist->getId();
+        }
+    }
+
+    if (!albumList.empty()) {
+        sqlHelper.AddAlbums(albumList, artistIdByName);
+    }
+
+    std::map<std::string, int> albumIdByName;
+    for (const auto& album : sqlHelper.GetAlbums()) {
+        if (album) {
+            albumIdByName[album->getTitle()] = album->getItemId();
+        }
+    }
+
+    if (!songList.empty()) {
+        sqlHelper.AddTracks(songList, albumIdByName);
+    }
+
     qDebug() << "Scanning folder:" << folderPath;
     emit statusMessageChanged("Started scanning: " + folderPath);
 }

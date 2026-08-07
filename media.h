@@ -43,6 +43,7 @@ public:
     Media() = default;
     Media(string title, string artist)
         : title_(std::move(title)), artist_(std::move(artist)) {}
+    Media(int id, string name, string coverPath, string artistId) {}
     Media(int itemId, string title, chrono::seconds duration,
           string image, string artist, vector<shared_ptr<const MediaTag>> MediaTags);
 
@@ -58,6 +59,7 @@ public:
 };
 
 class Song : public Media {
+    friend class SqlHelper;
 private:
     string albumName_ ;
     string genre_ ;
@@ -107,6 +109,7 @@ private:
 
 public:
     Album(string title, string artist);
+    Album(int itemId, string title, string image, string artist);
     Album(int itemId, string title, string image,
           string artist, vector<shared_ptr<const MediaTag>> MediaTags);
 
@@ -135,6 +138,7 @@ public:
 };
 
 class Artist {
+    friend class SqlHelper;
 private:
     int id_;
     string name_;
@@ -147,7 +151,7 @@ public:
     Artist(string name, string artPath = "");
     Artist(int id, string name, string artPath);
 
-    int getId() {return id_;}
+    int getId() const {return id_;}
     const string& getName() const { return name_; }
     const string& getArtPath() const { return artPath_; }
 };

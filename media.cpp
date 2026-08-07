@@ -62,6 +62,9 @@ Album::Album(std::string title,
              std::string artist)
     : MediaCollection(std::move(title), std::move(artist)) {}
 
+Album::Album(int itemId, std::string title, std::string image,std::string artist)
+    : MediaCollection(itemId, std::move(title), std::move(image), std::move(artist)) {}
+
 Album::Album(int itemId, std::string title, std::string image,
              std::string artist, std::vector<std::shared_ptr<const MediaTag>> MediaTags)
     : MediaCollection(itemId, std::move(title), std::chrono::seconds{0},
