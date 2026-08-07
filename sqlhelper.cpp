@@ -78,6 +78,33 @@ bool SqlHelper::generateDB(const QString& sqlFilePath) {
     return true;
 }
 
+// general functions
+bool SqlHelper::PrepareSql(QSqlQuery query) {
+    if (!query.prepare(sql)) {
+        qDebug() << "SQL Prepare Failed:" << query.lastError().text();
+        qDebug() << "Database Error Details:" << db_.lastError().text();
+        db_.rollback();
+        return false;
+    }
+    return true;
+}
+
+bool SqlHelper::ExecuteAndCommit(QSqlQuery query) {
+    if (!query.execBatch()) {
+        qDebug() << "Batch insert failed:" << query.lastError().text();
+        db_.rollback();
+        return false;
+    }
+
+    if (!db_.commit()) {
+        qDebug() << "Commit failed:" << db_.lastError().text();
+        db_.rollback();
+        return false;
+    }
+    return true;
+}
+
+
 // song implementation
 
 bool SqlHelper::AddTracks(vector<shared_ptr<const Song>> songList/*, map<string, int> albumIdPair*/) {
@@ -104,27 +131,15 @@ bool SqlHelper::AddTracks(vector<shared_ptr<const Song>> songList/*, map<string,
         sampleRate << song->getSampleRate();
         releaseYears << song->getReleaseYear();
     }
-
     if (!db_.transaction()) {
         qDebug() << "Failed to start transaction:" << db_.lastError().text();
         return false;
     }
 
     QSqlQuery query(db_);
-
-    // Note: Escaped "release" because it is an SQLite reserved keyword!
     const QString sql = "INSERT INTO \"tracks\" (filePath, title, albumId, trackNumber, durationSeconds, \"release\", sampleRate, bitrate) "
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-    // 1. MUST check if prepare succeeds
-    if (!query.prepare(sql)) {
-        qDebug() << "SQL Prepare Failed:" << query.lastError().text();
-        qDebug() << "Database Error Details:" << db_.lastError().text();
-        db_.rollback();
-        return false;
-    }
-
-    // 2. Add lists in exact order of the columns above
+    if (!PrepareSql(query)) { return false; }
     query.addBindValue(filePaths);
     query.addBindValue(titles);
     query.addBindValue(albumIds);
@@ -133,20 +148,7 @@ bool SqlHelper::AddTracks(vector<shared_ptr<const Song>> songList/*, map<string,
     query.addBindValue(releaseYears);
     query.addBindValue(sampleRate);
     query.addBindValue(bitrates);
-
-    // 3. Execute batch
-    if (!query.execBatch()) {
-        qDebug() << "Batch insert failed:" << query.lastError().text();
-        db_.rollback();
-        return false;
-    }
-
-    if (!db_.commit()) {
-        qDebug() << "Commit failed:" << db_.lastError().text();
-        db_.rollback();
-        return false;
-    }
-
+    if (!ExecuteAndCommit(query)) { return false; }
     return true;
 }
 
@@ -164,4 +166,87 @@ void SqlHelper::RemoveTracks(vector<int> id) {
 shared_ptr<const Song> SqlHelper::EditTrack(shared_ptr<const Song> editedSong) {
 }
 
+// albums
+bool SqlHelper::AddAlbums(vector<shared_ptr<const Album>> AlbumList, map<string, int> artistIdPair) {
+    if (AlbumList.empty()) return true;
+
+    QVariantList names;
+    QVariantList coverPaths;
+    QVariantList artistIds;
+
+    for (const auto& album : AlbumList) {
+        if (!album) continue;
+        names << QString::fromStdString(album->getTitle());
+        coverPaths << QString::fromStdString(album->getImage());
+        artistIds << artistIdPair[album->getTitle()];
+    }
+    if (!db_.transaction()) {
+        qDebug() << "Failed to start transaction:" << db_.lastError().text();
+        return false;
+    }
+
+    QSqlQuery query(db_);
+    const QString sql = "INSERT INTO \"album\" (name,coverPath,artistId)"
+                        " VALUES (?,?,?);";
+    if (!PrepareSql(query)) { return false; }
+    query.addBindValue(names);
+    query.addBindValue(coverPaths);
+    query.addBindValue(artistIds);
+    if (!ExecuteAndCommit(query)) { return false; }
+
+    return true;
+}
+vector<shared_ptr<const Album>> SqlHelper::GetAlbums() {
+
+}
+bool SqlHelper::RemoveAlbum(int id) {
+
+}
+bool SqlHelper::RemoveAlbums(vector<int> id) {
+
+}
+shared_ptr<const Album> SqlHelper::EditAlbum(shared_ptr<const Album> editedAlbum) {
+
+}
+
+// artists
+bool SqlHelper::AddArtists(vector<shared_ptr<const Artist>> ArtistList) {
+    if (ArtistList.empty()) return true;
+
+    QVariantList names;
+    QVariantList coverPaths;
+
+    for (const auto& artist : ArtistList) {
+        if (!artist) continue;
+        names << QString::fromStdString(artist->getName());
+        coverPaths << QString::fromStdString(artist->getArtPath());
+    }
+    if (!db_.transaction()) {
+        qDebug() << "Failed to start transaction:" << db_.lastError().text();
+        return false;
+    }
+
+    QSqlQuery query(db_);
+    const QString sql = "INSERT INTO \"artist\" (\"name\",\"artPath\") "
+                        "VALUES (?, ?)";
+    if (!PrepareSql(query)) { return false; }
+    query.addBindValue(names);
+    query.addBindValue(coverPaths);
+    if (!ExecuteAndCommit(query)) { return false; }
+
+    return true;
+
+}
+vector<shared_ptr<const Artist>> SqlHelper::GetArtists() {
+
+}
+bool SqlHelper::RemoveArtist(int id) {
+
+}
+bool SqlHelper::RemoveArtists(vector<int> id) {
+
+}
+shared_ptr<const Artist> SqlHelper::EditArtist(shared_ptr<const Artist> editedArtist) {
+
+}
 

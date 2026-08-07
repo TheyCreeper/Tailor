@@ -16,6 +16,9 @@ public:
     SqlHelper();
     virtual ~SqlHelper() = default;
     bool generateDB(const QString& sqlFilePath = "db.sql");
+    bool PrepareSql(QSqlQuery query);
+    bool ExecuteAndCommit(QSqlQuery query);
+
     // tracks
     bool AddTracks(vector<shared_ptr<const Song>> songList/*, map<string, int> albumIdPair*/);
     vector<shared_ptr<const Song>> GetTracks();
@@ -36,8 +39,6 @@ public:
     bool RemoveArtist(int id);
     bool RemoveArtists(vector<int> id);
     shared_ptr<const Artist> EditArtist(shared_ptr<const Artist> editedArtist);
-
-    QSqlDatabase& getDb() { return db_; }
 };
 
 #endif // SqlHelper_H
